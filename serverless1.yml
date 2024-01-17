@@ -1,0 +1,43 @@
+service: laravelLamdaS31
+
+provider:
+    name: aws
+    # The AWS region in which to deploy (us-east-1 is the default)
+    region: eu-north-1
+    # Environment variables
+    environment:
+        APP_ENV: production # Or use ${sls:stage} if you want the environment to match the stage
+    vpc:
+        securityGroupIds:
+        - sg-03894832b377f3a3f
+        subnetIds:
+        - subnet-080287050290efd2d
+
+    layerOne:
+        path:
+        description: Dependency layer
+
+package:
+    individually: true
+    # Files and directories to exclude from deployment
+    patterns:
+        - '!node_modules/**'
+        - '!public/storage'
+        - '!resources/assets/**'
+        - '!storage/**'
+        - '!tests/**'
+        - '!vendor/**'
+
+functions:
+    #This function runs the Laravel website/API
+    web:
+        handler: public/index.php
+        layers:
+        
+        runtime: php-82-fpm
+        timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
+        events:
+            - httpApi: '*'
+plugins:
+    # We need to include the Bref plugin
+    - ./vendor/bref/bref

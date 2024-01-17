@@ -1,0 +1,40 @@
+service: laravellambdas4
+
+provider:
+    name: aws
+    # The AWS region in which to deploy (us-east-1 is the default)
+    region: eu-north-1
+    # Environment variables
+    environment:
+        APP_ENV: production # Or use ${sls:stage} if you want the environment to match the stage
+    ecr:
+        images:
+            hello-world:
+                # Path to the `Dockerfile` file
+                path: ./
+    vpc:
+        securityGroupIds:
+        - sg-03894832b377f3a3f
+        subnetIds:
+        - subnet-080287050290efd2d
+
+package:
+    individually: true
+    # Files and directories to exclude from deployment
+    patterns:
+        - '!node_modules/**'
+        - '!public/storage'
+        - '!resources/assets/**'
+        - '!storage/**'
+        - '!tests/**'
+
+functions:
+    #This function runs the Laravel website/API
+    web:
+        image:
+            name: hello-world
+        events:
+            - httpApi: '*'
+plugins:
+    # We need to include the Bref plugin
+    - ./vendor/bref/bref
