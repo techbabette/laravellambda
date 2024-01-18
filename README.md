@@ -12,6 +12,8 @@ This can be useful when we want Lambdas to interact with resources in private su
 
 The following image represents the architecture I intend to use Laravel on Lambda in.
 
-![This is an alt text.](https://i.imgur.com/m8alPTS.png "Architecture plan")
+![This is an alt text.](https://i.imgur.com/ADJf6wr.png "Architecture plan")
 
-[This endpoint](https://ofivz7vwfh.execute-api.eu-north-1.amazonaws.com/api/request "API/Request endpoint") confirms the connection of the Lambda function to an RDS instance in a private subnet.
+[This endpoint](https://ng8o3g3kwh.execute-api.eu-north-1.amazonaws.com/api/request "API/Request endpoint") confirms the connection of the Lambda function to an RDS instance in a private subnet.
+
+[This endpoint](https://ng8o3g3kwh.execute-api.eu-north-1.amazonaws.com/api/image "API/image endpoint") confirms the connection of the Lambda function to the S3 Bucket.

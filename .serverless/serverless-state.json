@@ -1,14 +1,32 @@
 {
   "service": {
-    "service": "laravellambdas4",
+    "service": "laravellambdas5",
     "serviceObject": {
-      "name": "laravellambdas4"
+      "name": "laravellambdas5"
     },
     "provider": {
       "name": "aws",
       "region": "eu-north-1",
       "environment": {
-        "APP_ENV": "production"
+        "APP_ENV": "production",
+        "FILESYSTEM_DISK": "s3",
+        "FILESYSTEM_DISK_PUBLIC": "s3"
+      },
+      "iam": {
+        "role": {
+          "statements": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "s3:*"
+              ],
+              "Resource": [
+                "arn:aws:s3:::libraryfrontendandimages",
+                "arn:aws:s3:::libraryfrontendandimages/*"
+              ]
+            }
+          ]
+        }
       },
       "ecr": {
         "images": {
@@ -104,7 +122,7 @@
           "WebLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/laravellambdas4-dev-web"
+              "LogGroupName": "/aws/lambda/laravellambdas5-dev-web"
             }
           },
           "IamRoleLambdaExecution": {
@@ -132,7 +150,7 @@
                     "Fn::Join": [
                       "-",
                       [
-                        "laravellambdas4",
+                        "laravellambdas5",
                         "dev",
                         "lambda"
                       ]
@@ -150,7 +168,7 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/laravellambdas4-dev*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/laravellambdas5-dev*:*"
                           }
                         ]
                       },
@@ -161,9 +179,12 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/laravellambdas4-dev*:*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/laravellambdas5-dev*:*:*"
                           }
                         ]
+                      },
+                      {
+                        "$ref": "$[\"service\"][\"provider\"][\"iam\"][\"role\"][\"statements\"][0]"
                       }
                     ]
                   }
@@ -174,7 +195,7 @@
                 "Fn::Join": [
                   "-",
                   [
-                    "laravellambdas4",
+                    "laravellambdas5",
                     "dev",
                     {
                       "Ref": "AWS::Region"
@@ -203,15 +224,17 @@
             "Type": "AWS::Lambda::Function",
             "Properties": {
               "Code": {
-                "ImageUri": "228625521401.dkr.ecr.eu-north-1.amazonaws.com/serverless-laravellambdas4-dev@sha256:073354654dccb3b7b95985e5f90d9c83be8b76faef6caf989ef125afe6496e68"
+                "ImageUri": "228625521401.dkr.ecr.eu-north-1.amazonaws.com/serverless-laravellambdas5-dev@sha256:d11e7892c2e2a6cca2b624c641fa5a42780731ebdce8efbe93ef2c1dbb571a74"
               },
               "PackageType": "Image",
-              "FunctionName": "laravellambdas4-dev-web",
+              "FunctionName": "laravellambdas5-dev-web",
               "MemorySize": 1024,
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "APP_ENV": "production"
+                  "APP_ENV": "production",
+                  "FILESYSTEM_DISK": "s3",
+                  "FILESYSTEM_DISK_PUBLIC": "s3"
                 }
               },
               "Role": {
@@ -233,20 +256,20 @@
               "WebLogGroup"
             ]
           },
-          "WebLambdaVersionlBB2zxWlqIOKPUnXUKQJkdyCX1XydX25FWroQoy0Hg": {
+          "WebLambdaVersion593oofCQnv1wBJoC7WWOd6l35DUSj4fSnoaMAW1dN6s": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "WebLambdaFunction"
               },
-              "CodeSha256": "073354654dccb3b7b95985e5f90d9c83be8b76faef6caf989ef125afe6496e68"
+              "CodeSha256": "d11e7892c2e2a6cca2b624c641fa5a42780731ebdce8efbe93ef2c1dbb571a74"
             }
           },
           "HttpApi": {
             "Type": "AWS::ApiGatewayV2::Api",
             "Properties": {
-              "Name": "dev-laravellambdas4",
+              "Name": "dev-laravellambdas5",
               "ProtocolType": "HTTP"
             }
           },
@@ -342,16 +365,16 @@
               "Ref": "ServerlessDeploymentBucket"
             },
             "Export": {
-              "Name": "sls-laravellambdas4-dev-ServerlessDeploymentBucketName"
+              "Name": "sls-laravellambdas5-dev-ServerlessDeploymentBucketName"
             }
           },
           "WebLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "WebLambdaVersionlBB2zxWlqIOKPUnXUKQJkdyCX1XydX25FWroQoy0Hg"
+              "Ref": "WebLambdaVersion593oofCQnv1wBJoC7WWOd6l35DUSj4fSnoaMAW1dN6s"
             },
             "Export": {
-              "Name": "sls-laravellambdas4-dev-WebLambdaFunctionQualifiedArn"
+              "Name": "sls-laravellambdas5-dev-WebLambdaFunctionQualifiedArn"
             }
           },
           "HttpApiId": {
@@ -360,7 +383,7 @@
               "Ref": "HttpApi"
             },
             "Export": {
-              "Name": "sls-laravellambdas4-dev-HttpApiId"
+              "Name": "sls-laravellambdas5-dev-HttpApiId"
             }
           },
           "HttpApiUrl": {
@@ -385,7 +408,7 @@
               ]
             },
             "Export": {
-              "Name": "sls-laravellambdas4-dev-HttpApiUrl"
+              "Name": "sls-laravellambdas5-dev-HttpApiUrl"
             }
           }
         }
@@ -488,18 +511,18 @@
             "resolvedMethod": "ANY"
           }
         ],
-        "name": "laravellambdas4-dev-web",
+        "name": "laravellambdas5-dev-web",
         "package": {},
         "memory": 1024,
         "timeout": 6,
         "vpc": {},
-        "versionLogicalId": "WebLambdaVersionlBB2zxWlqIOKPUnXUKQJkdyCX1XydX25FWroQoy0Hg"
+        "versionLogicalId": "WebLambdaVersion593oofCQnv1wBJoC7WWOd6l35DUSj4fSnoaMAW1dN6s"
       }
     },
     "configValidationMode": "warn",
     "serviceFilename": "serverless.yml",
     "initialServerlessConfig": {
-      "service": "laravellambdas4",
+      "service": "laravellambdas5",
       "provider": {
         "$ref": "$[\"service\"][\"provider\"]"
       },
@@ -512,8 +535,8 @@
           "!storage/**",
           "!tests/**"
         ],
-        "artifactsS3KeyDirname": "serverless/laravellambdas4/dev/code-artifacts",
-        "artifactDirectoryName": "serverless/laravellambdas4/dev/1705435826776-2024-01-16T20:10:26.776Z"
+        "artifactsS3KeyDirname": "serverless/laravellambdas5/dev/code-artifacts",
+        "artifactDirectoryName": "serverless/laravellambdas5/dev/1705568743670-2024-01-18T09:05:43.670Z"
       },
       "functions": {
         "$ref": "$[\"service\"][\"functions\"]"
@@ -527,7 +550,7 @@
   },
   "package": {
     "individually": true,
-    "artifactDirectoryName": "serverless/laravellambdas4/dev/1705435826776-2024-01-16T20:10:26.776Z",
+    "artifactDirectoryName": "serverless/laravellambdas5/dev/1705568743670-2024-01-18T09:05:43.670Z",
     "artifact": ""
   }
 }

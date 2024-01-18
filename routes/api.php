@@ -27,3 +27,18 @@ Route::get("/request", function(Request $request){
         echo "Error in connecting to the database";
      }
 });
+
+Route::get("/image", function(Request $request){
+    try{
+        if(Storage::exists("index.html")){
+            echo "Connected to S3 successfully and index.html exists";
+        }
+        else{
+            echo "Connected to S3 successfully and index.html does not exist";
+        }
+    }
+    catch(Exception $e){
+        echo "Error in connecting to S3";
+        echo ($e->getMessage());
+    }
+});

@@ -1,4 +1,4 @@
-service: laravellambdas4
+service: laravellambdas5
 
 provider:
     name: aws
@@ -7,6 +7,17 @@ provider:
     # Environment variables
     environment:
         APP_ENV: production # Or use ${sls:stage} if you want the environment to match the stage
+        FILESYSTEM_DISK: s3
+        FILESYSTEM_DISK_PUBLIC: s3
+    iam:
+        role:
+            statements:
+                # Allow Lambda to read and write files in the S3 buckets
+                -   Effect: Allow
+                    Action: s3:*
+                    Resource:
+                        - arn:aws:s3:::libraryfrontendandimages # the storage bucket
+                        - arn:aws:s3:::libraryfrontendandimages/* # and everything inside
     ecr:
         images:
             hello-world:
