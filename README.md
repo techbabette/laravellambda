@@ -14,6 +14,6 @@ The following image represents the architecture I intend to use Laravel on Lambd
 
 ![This is an alt text.](https://i.imgur.com/ADJf6wr.png "Architecture plan")
 
-[This endpoint](https://ng8o3g3kwh.execute-api.eu-north-1.amazonaws.com/api/request "API/Request endpoint") confirms the connection of the Lambda function to an RDS instance in a private subnet.
+[This endpoint](https://github.com/techbabette/laravellambda/blob/main/routes/api.php "API/Request endpoint") confirms the connection of the Lambda function to an RDS instance in a private subnet.
 
-[This endpoint](https://ng8o3g3kwh.execute-api.eu-north-1.amazonaws.com/api/image "API/image endpoint") confirms the connection of the Lambda function to the S3 Bucket.
+[This endpoint](https://github.com/techbabette/laravellambda/blob/main/routes/api.php "API/image endpoint") confirms the connection of the Lambda function to the S3 Bucket.
